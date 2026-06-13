@@ -93,7 +93,12 @@ export const ChatbotCoach: React.FC<ChatbotCoachProps> = ({
         }));
       history.push({ role: 'user', content: textToSend });
 
-      const response = await fetch('/api/chat', {
+      if (!import.meta.env.VITE_API_URL) {
+        throw new Error('VITE_API_URL is not configured');
+      }
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

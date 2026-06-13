@@ -60,7 +60,12 @@ export default function App() {
   const handleAnalyze = async (text: string, mood: number, exam: ExamType) => {
     setIsAnalyzing(true);
     try {
-      const response = await fetch('/api/analyze', {
+      if (!import.meta.env.VITE_API_URL) {
+        throw new Error('VITE_API_URL is not configured');
+      }
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+      const response = await fetch(`${API_BASE_URL}/api/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
